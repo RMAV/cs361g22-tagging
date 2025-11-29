@@ -9,7 +9,7 @@ This microservice allows another program to:
 - List all items that share a given tag
 - Remove a single tag from an item
 
-The service uses an in-memory data store, which is sufficient for the course assignment.
+The service uses an in-memory data store.
 
 ---
 
@@ -228,7 +228,5 @@ It will:
 2. List tags for that item
 3. List items that have a specific tag
 4. Remove a tag from the item
-
-You can show this interaction in your CS361 assignment video as an example of an external program requesting data from the microservice and receiving data in JSON format.
 
 ---
