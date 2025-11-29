@@ -213,6 +213,43 @@ If the tag was not present on the item, the response is still `status: "success"
 
 ---
 
+## UML Sequence Diagram
+
+Below is a sequence diagram showing the interaction between a client and the Tagging Microservice:
+
+```mermaid
+sequenceDiagram
+  participant Client
+  participant Tagging as "Tagging Microservice"
+  participant Memory as "In-memory Store"
+
+  Note left of Client: Apply tags to an item
+  Client->>Tagging: POST /tags/apply { userID, itemID, tags }
+  alt invalid request
+    Tagging-->>Client: 400 Bad Request (JSON error)
+  else valid request
+    Tagging->>Memory: Save tags for (userID, itemID)
+    Tagging-->>Client: 201 Created (JSON with tags)
+  end
+
+  Note left of Client: List tags for an item
+  Client->>Tagging: GET /tags?userID&itemID
+  Tagging->>Memory: Lookup tags by userID + itemID
+  Tagging-->>Client: 200 OK (JSON with tags array)
+
+  Note left of Client: List items for a tag
+  Client->>Tagging: GET /tags/items?userID&tag
+  Tagging->>Memory: Find itemIDs with tag
+  Tagging-->>Client: 200 OK (JSON with itemIDs array)
+
+  Note left of Client: Remove a tag
+  Client->>Tagging: DELETE /tags/remove { userID, itemID, tag }
+  Tagging->>Memory: Remove tag from store
+  Tagging-->>Client: 200 OK (JSON with updated tags)
+```
+
+---
+
 ## Test Program
 
 A simple Node test client is included: `test_tagging_client.js`.
