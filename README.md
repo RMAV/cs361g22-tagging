@@ -27,7 +27,7 @@ npm install
 npm start
 ```
 
-You should see something like:
+You should see:
 
 ```text
 Tagging Microservice running on http://localhost:5002
